@@ -1,3 +1,4 @@
+import type React from "react";
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import { bySlug, type Product } from "./products";
 
@@ -11,7 +12,9 @@ type Ctx = {
   count: number; total: number;
   lines: (CartLine & { product: Product })[];
 };
-const StoreCtx = createContext<Ctx | null>(null);
+// Keep one context across hot reloads so the provider and consumers always match.
+const g = globalThis as unknown as { __bsStoreCtx?: React.Context<Ctx | null> };
+const StoreCtx = (g.__bsStoreCtx ??= createContext<Ctx | null>(null));
 
 export function StoreProvider({ children }: { children: ReactNode }) {
   const [cart, setCart] = useState<CartLine[]>([]);
