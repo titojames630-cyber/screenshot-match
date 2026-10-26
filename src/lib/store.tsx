@@ -1,10 +1,10 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import { bySlug, type Product } from "./products";
 
-export type CartLine = { slug: string; qty: number; variant?: string };
+export type CartLine = { slug: string; qty: number; variant?: string | undefined };
 type Ctx = {
   cart: CartLine[]; wishlist: string[];
-  add: (slug: string, qty?: number, variant?: string) => void;
+  add: (slug: string, qty?: number, variant?: string | undefined) => void;
   setQty: (i: number, qty: number) => void;
   remove: (i: number) => void; clear: () => void;
   toggleWish: (slug: string) => void;

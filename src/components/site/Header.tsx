@@ -63,7 +63,7 @@ export function Header() {
         <ul className="mx-auto flex max-w-7xl gap-8 px-4">
           {NAV.map((n) => (
             <li key={n.label}>
-              <Link to={n.to} search={"search" in n ? n.search : undefined} activeOptions={{ exact: true, includeSearch: true }}
+              <Link to={n.to} search={"search" in n ? n.search : {}} activeOptions={{ exact: true, includeSearch: true }}
                 className="block border-b-2 border-transparent py-3 font-display text-xs font-bold uppercase tracking-wider hover:text-primary [&.active]:border-primary [&.active]:text-primary">
                 {n.label}
               </Link>
@@ -75,7 +75,7 @@ export function Header() {
         <div className="border-t px-4 pb-4 lg:hidden">
           <div className="py-3 md:hidden"><SearchBox onDone={() => setOpen(false)} /></div>
           {NAV.map((n) => (
-            <Link key={n.label} to={n.to} search={"search" in n ? n.search : undefined} onClick={() => setOpen(false)}
+            <Link key={n.label} to={n.to} search={"search" in n ? n.search : {}} onClick={() => setOpen(false)}
               className="block border-b py-3 font-display text-sm font-bold uppercase">{n.label}</Link>
           ))}
         </div>
