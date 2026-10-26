@@ -60,7 +60,7 @@ export const kes = (n: number) => "KES " + n.toLocaleString("en-KE");
 export const discount = (pr: Product) => pr.originalPrice ? Math.round((1 - pr.price / pr.originalPrice) * 100) : 0;
 export const bySlug = (s: string) => PRODUCTS.find((x) => x.slug === s);
 export const categoryName = (s: string) => CATEGORIES.find((c) => c.slug === s)?.name ?? s;
-export const filterProducts = (opts: { category?: string; group?: string; q?: string; sale?: boolean }) =>
+export const filterProducts = (opts: { category?: string | undefined; group?: string | undefined; q?: string | undefined; sale?: boolean | undefined }) =>
   PRODUCTS.filter((x) => {
     if (opts.category === "offers") { if (!x.originalPrice) return false; }
     else if (opts.category && x.category !== opts.category) return false;
@@ -70,5 +70,5 @@ export const filterProducts = (opts: { category?: string; group?: string; q?: st
     if (opts.q && !(x.name + " " + x.short).toLowerCase().includes(opts.q.toLowerCase())) return false;
     return true;
   });
-export const BARGAIN = PRODUCTS[5];
+export const BARGAIN: Product = PRODUCTS[5]!;
 export const whatsappLink = (text: string) => `https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(text)}`;
