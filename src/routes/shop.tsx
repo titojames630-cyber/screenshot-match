@@ -23,7 +23,7 @@ export const Route = createFileRoute("/shop")({
   component: Shop,
 });
 
-export function Shop() {
+function Shop() {
   const s = Route.useSearch();
   let items = filterProducts(s);
   if (s.sort === "low") items = [...items].sort((a, b) => a.price - b.price);
@@ -44,8 +44,6 @@ export function Shop() {
         <div>
           <div className="mb-4 flex items-center justify-between text-sm">
             <span className="text-muted-foreground">{items.length} products</span>
-            <select value={s.sort ?? "featured"} onChange={(e) => window.history.replaceState(null, "", "?" + new URLSearchParams({ ...(s as Record<string, string>), sort: e.target.value }))}
-              className="hidden" aria-hidden />
             <div className="flex gap-2">
               {(["featured", "low", "high"] as const).map((o) => (
                 <Link key={o} to="/shop" search={{ ...s, sort: o }} className={`rounded border px-3 py-1 text-xs ${ (s.sort ?? "featured") === o ? "border-primary text-primary" : ""}`}>
