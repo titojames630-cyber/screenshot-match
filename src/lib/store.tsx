@@ -49,6 +49,11 @@ export function StoreProvider({ children }: { children: ReactNode }) {
 }
 export const useStore = () => {
   const c = useContext(StoreCtx);
-  if (!c) throw new Error("useStore outside provider");
-  return c;
+  // Never blank the page: fall back to an empty, inert store (e.g. during a hot reload).
+  return c ?? FALLBACK;
+};
+
+const FALLBACK: Ctx = {
+  cart: [], wishlist: [], lines: [], count: 0, total: 0,
+  add: () => {}, setQty: () => {}, remove: () => {}, clear: () => {}, toggleWish: () => {},
 };
