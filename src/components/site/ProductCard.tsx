@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
-import { CheckCircle2, Heart, XCircle } from "lucide-react";
+import { CheckCircle2, Heart, MessageCircle, XCircle } from "lucide-react";
 import { toast } from "sonner";
-import { discount, kes, type Product } from "@/lib/products";
+import { discount, kes, priceLabel, whatsappLink, type Product } from "@/lib/products";
 import { useStore } from "@/lib/store";
 
 export function ProductCard({ p }: { p: Product }) {
@@ -16,6 +16,7 @@ export function ProductCard({ p }: { p: Product }) {
         </Link>
         {d > 0 && <span className="absolute left-2 top-2 rounded bg-primary px-2 py-1 font-display text-xs font-bold text-primary-foreground">-{d}%</span>}
         {p.isNew && !d && <span className="absolute left-2 top-2 rounded bg-ink px-2 py-1 font-display text-xs font-bold text-ink-foreground">NEW</span>}
+        {p.illustration && <span className="absolute bottom-2 left-2 rounded bg-background/90 px-2 py-0.5 text-[0.65rem] font-semibold text-muted-foreground">Illustration</span>}
         <button onClick={() => toggleWish(p.slug)} aria-label={wished ? `Remove ${p.name} from wishlist` : `Save ${p.name} to wishlist`} aria-pressed={wished} className="absolute right-1.5 top-1.5 grid h-11 w-11 place-items-center rounded-full bg-background/95 shadow">
           <Heart className={`h-4 w-4 ${wished ? "fill-primary text-primary" : ""}`} />
         </button>
@@ -24,7 +25,7 @@ export function ProductCard({ p }: { p: Product }) {
         <Link to="/product/$slug" params={{ slug: p.slug }} className="font-display text-sm font-bold leading-tight hover:text-primary sm:text-base">{p.name}</Link>
         <p className="mt-1 line-clamp-2 text-xs text-muted-foreground">{p.short}</p>
         <div className="mt-2 flex flex-wrap items-baseline gap-2">
-          <span className="font-display text-base font-extrabold text-primary sm:text-lg">{kes(p.price)}</span>
+          <span className={`font-display font-extrabold text-primary ${p.priceOnRequest ? "text-sm" : "text-base sm:text-lg"}`}>{priceLabel(p)}</span>
           {p.originalPrice && <span className="text-xs text-muted-foreground line-through">{kes(p.originalPrice)}</span>}
         </div>
         <p className={`mt-1 flex items-center gap-1 text-xs font-semibold ${p.stock > 0 ? "text-success" : "text-muted-foreground"}`}>
@@ -32,8 +33,10 @@ export function ProductCard({ p }: { p: Product }) {
           {p.stock > 0 ? (p.stock < 10 ? `Only ${p.stock} left` : "In stock") : "Out of stock"}
         </p>
         <div className="mt-auto pt-3">
-          <button disabled={p.stock === 0} onClick={() => { add(p.slug, 1, p.variants?.[0]); toast.success(`${p.name} added to cart`, { action: { label: "View cart", onClick: () => { window.location.href = "/cart"; } } }); }}
-            className="btn btn-primary w-full px-2 disabled:opacity-40">{p.stock === 0 ? "Sold out" : "Add to cart"}</button>
+          {p.priceOnRequest ? (
+            <a href={whatsappLink(`Hello Bargains Stationery, what is the price of the ${p.name}?`)} target="_blank" rel="noreferrer" className="btn btn-whatsapp w-full px-2"><MessageCircle className="h-4 w-4" aria-hidden /> Ask price</a>
+          ) : <button disabled={p.stock === 0} onClick={() => { add(p.slug, 1, p.variants?.[0]); toast.success(`${p.name} added to cart`, { action: { label: "View cart", onClick: () => { window.location.href = "/cart"; } } }); }}
+            className="btn btn-primary w-full px-2 disabled:opacity-40">{p.stock === 0 ? "Sold out" : "Add to cart"}</button>}
         </div>
       </div>
     </article>

@@ -17,7 +17,7 @@ export const Route = createFileRoute("/about")({
         <div>
           <img src={logo} alt="Bargains Stationery — Engineering your success" width={160} height={160} className="h-40 w-40 rounded-xl" />
           <h1 className="mt-6 text-4xl font-black">Built for engineers, priced for students.</h1>
-          <p className="mt-4 text-muted-foreground">Bargains Stationery supplies engineering students, draftsmen and architects with the tools they need — technical drawing instruments, genuine Casio calculators, drafting tools and lab coats.</p>
+          <p className="mt-4 text-muted-foreground">Bargains Stationery supplies engineering students, draftsmen and architects with the tools they need — drawing equipment, genuine Casio calculators, engineering attire and safety gear.</p>
           <div className="mt-8 grid grid-cols-3 gap-4 text-center">
             {["Affordability", "Reliability", "Engineering Excellence"].map((v) => (
               <div key={v} className="rounded-lg border-t-4 border-primary bg-secondary p-4 font-display text-xs font-bold uppercase">{v}</div>

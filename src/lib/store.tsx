@@ -7,6 +7,7 @@ type Ctx = {
   cart: CartLine[]; wishlist: string[];
   add: (slug: string, qty?: number, variant?: string | undefined) => void;
   setQty: (i: number, qty: number) => void;
+  setVariant: (i: number, variant: string) => void;
   remove: (i: number) => void; clear: () => void;
   toggleWish: (slug: string) => void;
   count: number; total: number;
@@ -40,6 +41,12 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       return [...c, { slug, qty, variant }];
     }),
     setQty: (i, qty) => setCart((c) => c.map((l, j) => (j === i ? { ...l, qty: Math.max(1, qty) } : l))),
+    setVariant: (i, variant) => setCart((c) => {
+      const line = c[i]; if (!line) return c;
+      const dup = c.findIndex((l, j) => j !== i && l.slug === line.slug && l.variant === variant);
+      if (dup >= 0) return c.flatMap((l, j) => (j === i ? [] : j === dup ? [{ ...l, qty: l.qty + line.qty }] : [l]));
+      return c.map((l, j) => (j === i ? { ...l, variant } : l));
+    }),
     remove: (i) => setCart((c) => c.filter((_, j) => j !== i)),
     clear: () => setCart([]),
     toggleWish: (slug) => setWish((w) => (w.includes(slug) ? w.filter((s) => s !== slug) : [...w, slug])),
@@ -56,5 +63,5 @@ export const useStore = () => {
 
 const FALLBACK: Ctx = {
   cart: [], wishlist: [], lines: [], count: 0, total: 0,
-  add: () => {}, setQty: () => {}, remove: () => {}, clear: () => {}, toggleWish: () => {},
+  add: () => {}, setQty: () => {}, setVariant: () => {}, remove: () => {}, clear: () => {}, toggleWish: () => {},
 };

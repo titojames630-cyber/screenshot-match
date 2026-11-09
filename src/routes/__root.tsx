@@ -65,6 +65,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:card", content: "summary_large_image" },
     ],
     scripts: [
+      { children: "document.documentElement.classList.add('js')" },
       {
         type: "application/ld+json",
         children: JSON.stringify({
@@ -101,7 +102,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head><HeadContent /></head>
       <body>{children}<Scripts /></body>
     </html>

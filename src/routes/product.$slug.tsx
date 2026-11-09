@@ -2,7 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Heart, MessageCircle, RotateCcw, Truck, Wallet } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
-import { PRODUCTS, SITE, bySlug, categoryName, discount, kes, whatsappLink } from "@/lib/products";
+import { PRODUCTS, SITE, bySlug, categoryName, discount, kes, priceLabel, whatsappLink } from "@/lib/products";
 import { useStore } from "@/lib/store";
 import { ProductCard } from "@/components/site/ProductCard";
 
@@ -36,7 +36,7 @@ export const Route = createFileRoute("/product/$slug")({
             offers: {
               "@type": "Offer",
               priceCurrency: "KES",
-              price: loaderData.product.price,
+              price: loaderData.product.priceOnRequest ? undefined : loaderData.product.price,
               availability: loaderData.product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
               seller: { "@type": "Organization", name: "Bargains Stationery" },
             },
@@ -78,7 +78,7 @@ function ProductPage() {
           <p className="font-display text-xs font-bold uppercase tracking-widest text-primary">{categoryName(p.category)}</p>
           <h1 className="mt-2 text-3xl font-black">{p.name}</h1>
           <div className="mt-4 flex items-baseline gap-3">
-            <span className="font-display text-3xl font-black text-primary">{kes(p.price)}</span>
+            <span className={`font-display font-black text-primary ${p.priceOnRequest ? "text-2xl" : "text-3xl"}`}>{priceLabel(p)}</span>
             {p.originalPrice && <span className="text-muted-foreground line-through">{kes(p.originalPrice)}</span>}
           </div>
           <p className={`mt-2 text-sm font-semibold ${p.stock > 0 ? "text-success" : "text-muted-foreground"}`}>{p.stock > 0 ? `In stock (${p.stock})` : "Out of stock"} · SKU {p.sku}</p>
@@ -99,10 +99,11 @@ function ProductPage() {
               <span className="w-8 text-center" aria-live="polite">{qty}</span>
               <button className="h-11 w-11" aria-label="Increase quantity" onClick={() => setQty(qty + 1)}>+</button>
             </div>
-            <button disabled={p.stock === 0} onClick={() => { add(p.slug, qty, variant); toast.success("Added to cart", { action: { label: "View cart", onClick: () => { window.location.href = "/cart"; } } }); }} className="btn btn-primary flex-1 disabled:opacity-40">Add to Cart</button>
+            {!p.priceOnRequest && <button disabled={p.stock === 0} onClick={() => { add(p.slug, qty, variant); toast.success("Added to cart", { action: { label: "View cart", onClick: () => { window.location.href = "/cart"; } } }); }} className="btn btn-primary flex-1 disabled:opacity-40">Add to Cart</button>}
             <button onClick={() => toggleWish(p.slug)} aria-label={wishlist.includes(p.slug) ? "Remove from wishlist" : "Save to wishlist"} aria-pressed={wishlist.includes(p.slug)} className="rounded border px-3"><Heart className={wishlist.includes(p.slug) ? "fill-primary text-primary" : ""} /></button>
           </div>
-          <a href={whatsappLink(`Hi, I'd like to order: ${p.name}${variant ? ` (${variant})` : ""} x${qty}`)} target="_blank" rel="noreferrer" className="btn btn-whatsapp mt-3 w-full"><MessageCircle className="h-4 w-4" aria-hidden /> Order on WhatsApp</a>
+          <a href={whatsappLink(p.priceOnRequest ? `Hello, what is the price of the ${p.name}${variant ? ` (${variant})` : ""}? I'd like ${qty}.` : `Hi, I'd like to order: ${p.name}${variant ? ` (${variant})` : ""} x${qty}`)} target="_blank" rel="noreferrer" className="btn btn-whatsapp mt-3 w-full"><MessageCircle className="h-4 w-4" aria-hidden /> {p.priceOnRequest ? "Ask price on WhatsApp" : "Order on WhatsApp"}</a>
+          {p.illustration && <p className="mt-2 text-xs text-muted-foreground">Image is an illustration. Ask on WhatsApp for a photo of the actual item.</p>}
           <ul className="mt-6 space-y-2 rounded-lg bg-secondary p-4 text-sm">
             <li className="flex gap-2"><Truck className="h-4 w-4 shrink-0 text-primary" aria-hidden />{SITE.delivery.nairobi}. {SITE.delivery.countrywide}.</li>
             <li className="flex gap-2"><Wallet className="h-4 w-4 shrink-0 text-primary" aria-hidden />Pay by M-Pesa Paybill {SITE.payment.paybill}, Account {SITE.payment.account}.</li>

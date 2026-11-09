@@ -2,10 +2,9 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { ChevronDown, Heart, Menu, MessageCircle, Phone, Search, ShoppingCart, X } from "lucide-react";
 import { useId, useState } from "react";
 import { Logo } from "./Logo";
-import { CATEGORIES, SITE, kes, searchProducts, telLink, whatsappLink } from "@/lib/products";
+import { CATEGORIES, PRODUCTS, SITE, priceLabel, searchProducts, telLink, whatsappLink } from "@/lib/products";
 import { useStore } from "@/lib/store";
 
-const shopCats = CATEGORIES;
 
 function SearchBox({ onDone, dark = false, inputId }: { onDone?: () => void; dark?: boolean; inputId?: string }) {
   const [q, setQ] = useState("");
@@ -31,7 +30,7 @@ function SearchBox({ onDone, dark = false, inputId }: { onDone?: () => void; dar
           if (e.key === "ArrowUp") { e.preventDefault(); setActive((a) => Math.max(a - 1, -1)); }
           if (e.key === "Escape") { setQ(""); setActive(-1); }
         }}
-        placeholder="Search calculators, set squares, lab coats…"
+        placeholder="Search calculators, set squares, boots, overalls…"
         aria-label="Search products"
         role="combobox"
         aria-expanded={hits.length > 0}
@@ -48,7 +47,7 @@ function SearchBox({ onDone, dark = false, inputId }: { onDone?: () => void; dar
                 className={`flex w-full items-center gap-3 px-3 py-2 text-left text-sm hover:bg-secondary ${i === active ? "bg-secondary" : ""}`}>
                 <img src={p.image} alt="" className="h-9 w-9 rounded object-cover" />
                 <span className="flex-1">{p.name}</span>
-                <span className="font-semibold text-primary">{kes(p.price)}</span>
+                <span className="font-semibold text-primary">{priceLabel(p)}</span>
               </button>
             </li>
           ))}
@@ -96,22 +95,29 @@ export function Header() {
       <div className="px-4 pb-3 md:hidden"><SearchBox dark inputId="mobile-search" /></div>
 
       <nav aria-label="Main" className="hidden border-t border-charcoal lg:block">
-        <ul className="mx-auto flex max-w-7xl gap-7 px-4">
+        <ul className="mx-auto flex max-w-7xl gap-6 px-4">
           <li><Link to="/" activeOptions={{ exact: true }} className={navCls}>Home</Link></li>
-          <li className="group relative">
-            <Link to="/shop" activeOptions={{ exact: true, includeSearch: true }} className={`${navCls} inline-flex items-center gap-1`}>
-              Shop <ChevronDown className="h-3.5 w-3.5" aria-hidden />
-            </Link>
-            <div className="invisible absolute left-0 top-full z-50 w-72 rounded-b-md border border-t-0 bg-popover p-2 text-foreground opacity-0 shadow-xl transition group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
-              {shopCats.map((c) => (
-                <Link key={c.slug} to="/shop" search={{ category: c.slug }} className="block rounded px-3 py-2 text-sm hover:bg-secondary hover:text-primary">{c.name}</Link>
-              ))}
-            </div>
-          </li>
-          <li><Link to="/shop" search={{ category: "calculators" }} activeOptions={{ exact: true, includeSearch: true }} className={navCls}>Calculators</Link></li>
-          <li><Link to="/shop" search={{ category: "lab-wear" }} activeOptions={{ exact: true, includeSearch: true }} className={navCls}>Lab Coats</Link></li>
+          {CATEGORIES.map((c) => {
+            const items = PRODUCTS.filter((x) => x.category === c.slug);
+            return (
+              <li key={c.slug} className="group relative">
+                <Link to="/shop" search={{ category: c.slug }} activeOptions={{ exact: true, includeSearch: true }} className={`${navCls} inline-flex items-center gap-1`}>
+                  {c.slug === "calculators" ? "Calculators" : c.name} <ChevronDown className="h-3.5 w-3.5 transition group-hover:rotate-180" aria-hidden />
+                </Link>
+                <div className="invisible absolute left-0 top-full z-50 w-80 translate-y-1 rounded-b-lg border border-t-0 bg-popover p-2 text-foreground opacity-0 shadow-2xl transition duration-200 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
+                  {items.map((x) => (
+                    <Link key={x.slug} to="/product/$slug" params={{ slug: x.slug }} className="flex items-center gap-3 rounded-md px-2 py-2 text-sm hover:bg-secondary">
+                      <img src={x.image} alt="" loading="lazy" className="h-10 w-10 rounded object-cover" />
+                      <span className="flex-1 leading-tight">{x.name}</span>
+                      <span className="whitespace-nowrap text-xs font-bold text-primary">{priceLabel(x)}</span>
+                    </Link>
+                  ))}
+                  <Link to="/shop" search={{ category: c.slug }} className="mt-1 block rounded-md bg-secondary px-3 py-2 text-center text-xs font-bold uppercase tracking-wider hover:text-primary">View all {c.short.toLowerCase()} →</Link>
+                </div>
+              </li>
+            );
+          })}
           <li><Link to="/deals" className={navCls}>Deals</Link></li>
-          <li><Link to="/about" className={navCls}>About</Link></li>
           <li><Link to="/contact" className={navCls}>Contact</Link></li>
         </ul>
       </nav>

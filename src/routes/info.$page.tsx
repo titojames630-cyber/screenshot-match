@@ -20,7 +20,7 @@ const PAGES: Record<string, Page> = {
     description: "Our returns, exchange and refund policy.",
     sections: [
       { h: "Returns", p: [`You can return unused items in their original packaging within ${SITE.returnsDays} days of delivery. WhatsApp us your order details and the reason for the return.`] },
-      { h: "Exchanges", p: ["A wrong-size lab coat can be exchanged for another size, subject to stock."] },
+      { h: "Exchanges", p: ["Wrong-size lab coats, overalls, dust coats and safety boots can be exchanged for another size, subject to stock."] },
       { h: "Faulty items", p: ["If an item arrives damaged or faulty, tell us within 48 hours with a photo and we will replace it or refund you."] },
       { h: "Refunds", p: ["Approved refunds are sent back to the M-Pesa number you paid from, usually within 2 working days."] },
       { h: "Items we cannot take back", p: ["Items that have been used or damaged after delivery, and calculators with broken seals unless faulty."] },
