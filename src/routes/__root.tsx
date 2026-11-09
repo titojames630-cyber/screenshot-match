@@ -16,6 +16,8 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { StoreProvider } from "@/lib/store";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
+import { MobileBar } from "@/components/site/MobileBar";
+import { SITE } from "@/lib/products";
 
 function NotFoundComponent() {
   return (
@@ -56,15 +58,39 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "Bargains Stationery" },
       { name: "description", content: "Engineering stationery and construction safety attire in Kenya." },
+      { name: "theme-color", content: "#141414" },
       { property: "og:type", content: "website" },
+      { property: "og:site_name", content: "Bargains Stationery" },
+      { property: "og:image", content: "/logo.png" },
       { name: "twitter:card", content: "summary_large_image" },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Store",
+          name: SITE.name,
+          slogan: SITE.tagline,
+          image: "/logo.png",
+          logo: "/logo.png",
+          telephone: SITE.phoneIntl,
+          email: SITE.email,
+          address: { "@type": "PostalAddress", addressLocality: "Nairobi", addressCountry: "KE" },
+          paymentAccepted: "M-Pesa, Cash",
+          currenciesAccepted: "KES",
+          sameAs: [SITE.social.tiktok.url, SITE.social.instagram.url],
+        }),
+      },
     ],
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@600;700;800;900&display=swap" },
+      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Montserrat:wght@700;800;900&display=swap" },
       { rel: "stylesheet", href: appCss },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: "/favicon.ico", sizes: "48x48" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
+      { rel: "manifest", href: "/manifest.webmanifest" },
     ],
   }),
   shellComponent: RootShell,
@@ -90,7 +116,8 @@ function RootComponent() {
         <Header />
         <main className="min-h-[60vh]"><Outlet /></main>
         <Footer />
-        <Toaster position="bottom-right" richColors />
+        <MobileBar />
+        <Toaster position="top-center" richColors />
       </StoreProvider>
     </QueryClientProvider>
   );

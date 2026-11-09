@@ -31,7 +31,7 @@ function Shop() {
   const title = s.q ? `Results for “${s.q}”` : s.category ? categoryName(s.category) : s.group === "safety" ? "Safety Attire" : s.group === "stationery" ? "Engineering Stationery" : "Shop All";
   return (
     <div className="mx-auto max-w-7xl px-4 py-10">
-      <h1 className="text-3xl font-black uppercase">{title}</h1>
+      <h1 className="text-3xl font-black">{title}</h1>
       <div className="ruler mt-3 w-24" />
       <div className="mt-8 grid gap-8 lg:grid-cols-[220px_1fr]">
         <aside className="h-fit rounded-lg bg-secondary p-4">

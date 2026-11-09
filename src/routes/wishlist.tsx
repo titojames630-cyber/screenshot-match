@@ -20,7 +20,7 @@ function Wishlist() {
   const items = PRODUCTS.filter((p) => wishlist.includes(p.slug));
   return (
     <div className="mx-auto max-w-7xl px-4 py-12">
-      <h1 className="text-3xl font-black uppercase">Wishlist</h1>
+      <h1 className="text-3xl font-black">Wishlist</h1>
       {items.length ? (
         <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-4">{items.map((p) => <ProductCard key={p.id} p={p} />)}</div>
       ) : (

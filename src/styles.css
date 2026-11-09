@@ -34,6 +34,8 @@
   --color-ink-foreground: var(--ink-foreground);
   --color-charcoal: var(--charcoal);
   --color-success: var(--success);
+  --color-primary-bright: var(--primary-bright);
+  --color-whatsapp: var(--whatsapp);
 }
 
 :root {
@@ -49,10 +51,10 @@
   --secondary: oklch(0.965 0 0);
   --secondary-foreground: oklch(0.18 0 0);
   --muted: oklch(0.965 0 0);
-  --muted-foreground: oklch(0.56 0 0);
+  --muted-foreground: oklch(0.5 0 0);
   --accent: oklch(0.965 0 0);
   --accent-foreground: oklch(0.18 0 0);
-  --destructive: oklch(0.56 0.215 26);
+  --destructive: oklch(0.5 0.2 10);
   --destructive-foreground: oklch(1 0 0);
   --border: oklch(0.92 0 0);
   --input: oklch(0.92 0 0);
@@ -60,7 +62,10 @@
   --ink: oklch(0.17 0 0);
   --ink-foreground: oklch(1 0 0);
   --charcoal: oklch(0.27 0 0);
-  --success: oklch(0.55 0.14 150);
+  --success: oklch(0.5 0.14 150);
+  /* brand red, lightened so small text stays readable on black */
+  --primary-bright: oklch(0.68 0.19 26);
+  --whatsapp: oklch(0.6 0.16 150);
   --grid-line: color-mix(in oklab, var(--foreground) 6%, transparent);
   --grid-line-dark: color-mix(in oklab, var(--ink-foreground) 7%, transparent);
 }
@@ -73,6 +78,12 @@
     font-family: var(--font-sans);
   }
   h1, h2, h3, h4 { font-family: var(--font-display); }
+  html { scroll-behavior: smooth; }
+  :focus-visible { outline: 3px solid var(--primary-bright); outline-offset: 2px; border-radius: 4px; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+  }
 }
 
 @utility blueprint {
@@ -104,4 +115,8 @@
 @utility btn-outline {
   border: 2px solid currentColor;
   &:hover { background: var(--primary); border-color: var(--primary); color: var(--primary-foreground); }
+}
+@utility btn-whatsapp {
+  background: var(--whatsapp); color: oklch(0.15 0 0);
+  &:hover { filter: brightness(1.08); }
 }

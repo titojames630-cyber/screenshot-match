@@ -14,8 +14,8 @@ export const Route = createFileRoute("/deals")({
   component: () => (
     <div>
       <section className="blueprint-dark bg-ink py-14 text-center text-ink-foreground">
-        <h1 className="text-4xl font-black uppercase">Today's <span className="text-primary">deals</span></h1>
-        <p className="mt-3 opacity-75">Genuine discounts on engineering essentials.</p>
+        <h1 className="text-4xl font-black">Today's <span className="text-primary-bright">deals</span></h1>
+        <p className="mt-3 text-ink-foreground/80">Genuine discounts on engineering essentials.</p>
       </section>
       <div className="mx-auto grid max-w-7xl grid-cols-2 gap-4 px-4 py-12 md:grid-cols-4">
         {filterProducts({ sale: true }).map((p) => <ProductCard key={p.id} p={p} />)}

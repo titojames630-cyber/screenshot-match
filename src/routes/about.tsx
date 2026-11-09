@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import hero from "@/assets/hero.jpg";
-import { Logo } from "@/components/site/Logo";
+import hero from "@/assets/hero.webp";
+import logo from "@/assets/logo.webp";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -15,8 +15,8 @@ export const Route = createFileRoute("/about")({
     <div className="mx-auto max-w-6xl px-4 py-14">
       <div className="grid items-center gap-10 md:grid-cols-2">
         <div>
-          <Logo size="lg" />
-          <h1 className="mt-6 text-4xl font-black uppercase">Built for engineers, priced for students.</h1>
+          <img src={logo} alt="Bargains Stationery — Engineering your success" width={160} height={160} className="h-40 w-40 rounded-xl" />
+          <h1 className="mt-6 text-4xl font-black">Built for engineers, priced for students.</h1>
           <p className="mt-4 text-muted-foreground">Bargains Stationery supplies engineering students, draftsmen, architects and construction professionals with the tools they need — technical drawing equipment, calculators, measuring instruments and site safety attire.</p>
           <div className="mt-8 grid grid-cols-3 gap-4 text-center">
             {["Affordability", "Reliability", "Engineering Excellence"].map((v) => (
