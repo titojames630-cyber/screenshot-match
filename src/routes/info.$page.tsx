@@ -20,17 +20,17 @@ const PAGES: Record<string, Page> = {
     description: "Our returns, exchange and refund policy.",
     sections: [
       { h: "Returns", p: [`You can return unused items in their original packaging within ${SITE.returnsDays} days of delivery. WhatsApp us your order details and the reason for the return.`] },
-      { h: "Exchanges", p: ["Wrong size safety boots, overalls, vests or gloves can be exchanged for another size, subject to stock."] },
+      { h: "Exchanges", p: ["A wrong-size lab coat can be exchanged for another size, subject to stock."] },
       { h: "Faulty items", p: ["If an item arrives damaged or faulty, tell us within 48 hours with a photo and we will replace it or refund you."] },
       { h: "Refunds", p: ["Approved refunds are sent back to the M-Pesa number you paid from, usually within 2 working days."] },
-      { h: "Items we cannot take back", p: ["Used consumables such as pencils, leads and paper, and items damaged after delivery."] },
+      { h: "Items we cannot take back", p: ["Items that have been used or damaged after delivery, and calculators with broken seals unless faulty."] },
     ],
   },
   "how-to-order": {
     title: "How to order & pay",
     description: "Order on WhatsApp and pay by M-Pesa Paybill.",
     sections: [
-      { h: "1. Add items to your cart", p: ["Browse the shop or pick a ready-made student kit, choose sizes or options, and add them to your cart."] },
+      { h: "1. Add items to your cart", p: ["Browse the shop, choose sizes or options, and add items to your cart."] },
       { h: "2. Send your order on WhatsApp", p: ["Tap “Order via WhatsApp” in your cart. Your full order is sent to us as a message. We confirm stock and the delivery fee."] },
       { h: "3. Pay by M-Pesa", p: [`Go to M-Pesa → Lipa na M-Pesa → Pay Bill. Business number: ${P.paybill}. Account number: ${P.account}. Enter the amount we confirmed and your PIN.`, "Send us the M-Pesa confirmation message on WhatsApp and we dispatch your order."] },
       { h: "Bulk and school orders", p: ["Schools, colleges and contractors can send a list on WhatsApp for a quote."] },

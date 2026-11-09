@@ -27,8 +27,8 @@ function Cart() {
   if (!lines.length) return (
     <div className="py-24 text-center">
       <h1 className="text-3xl font-black">Your cart is empty</h1>
-      <p className="mt-2 text-muted-foreground">Browse our products or start with a ready-made student kit.</p>
-      <div className="mt-6 flex justify-center gap-3"><Link to="/shop" className="btn btn-primary">Shop now</Link><Link to="/kits" className="btn btn-outline">Student kits</Link></div>
+      <p className="mt-2 text-muted-foreground">Browse our drawing instruments, calculators and lab coats.</p>
+      <div className="mt-6 flex justify-center gap-3"><Link to="/shop" className="btn btn-primary">Shop now</Link><Link to="/shop" search={{ category: "calculators" }} className="btn btn-outline">Calculators</Link></div>
     </div>
   );
   return (

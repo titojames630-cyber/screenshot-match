@@ -4,19 +4,18 @@ import {
   Smartphone, Truck, Wallet, type LucideIcon,
 } from "lucide-react";
 import { cloneElement, useEffect, useState, type ReactElement, type ReactNode } from "react";
-import hero from "@/assets/hero.webp";
-import { BARGAIN, CATEGORIES, KITS, PRODUCTS, SITE, kes, whatsappLink } from "@/lib/products";
+import hero from "@/assets/hero-products.webp";
+import { BARGAIN, CATEGORIES, PRODUCTS, SITE, kes, whatsappLink } from "@/lib/products";
 import { ProductCard } from "@/components/site/ProductCard";
-import { KitCard } from "@/components/site/KitCard";
 import { FAQS } from "@/lib/content";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Bargains Stationery | Engineering Stationery & Safety Gear in Kenya" },
-      { name: "description", content: "Technical drawing equipment, engineering calculators, student kits and construction safety attire at affordable prices. Pay by M-Pesa, same-day Nairobi delivery." },
+      { title: "Bargains Stationery | Drawing Instruments & Casio Calculators in Kenya" },
+      { name: "description", content: "Gaslo draftsman sets, Casio scientific calculators, set squares, T-squares, protractors and lab coats at student prices. Pay by M-Pesa, same-day Nairobi delivery." },
       { property: "og:title", content: "Bargains Stationery: Engineering your success" },
-      { property: "og:description", content: "Engineering stationery and safety gear at prices that make sense. Order on WhatsApp, pay by M-Pesa." },
+      { property: "og:description", content: "Engineering stationery at prices that make sense. Order on WhatsApp, pay by M-Pesa." },
     ],
     links: [{ rel: "preload", as: "image", href: hero, fetchPriority: "high" }],
   }),
@@ -53,15 +52,15 @@ function Index() {
             <h1 className="mt-4 text-4xl font-black leading-[1.05] sm:text-5xl lg:text-6xl">
               Engineering essentials. <span className="text-primary-bright">Unbeatable bargains.</span>
             </h1>
-            <p className="mt-5 max-w-lg text-lg text-ink-foreground/80">Drawing sets, calculators, drafting tools and site safety gear for students, draftsmen and contractors. Order in minutes on WhatsApp and pay by M-Pesa.</p>
+            <p className="mt-5 max-w-lg text-lg text-ink-foreground/80">Gaslo draftsman sets, genuine Casio calculators, set squares, T-squares and lab coats for engineering students and draftsmen. Order in minutes on WhatsApp and pay by M-Pesa.</p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link to="/shop" className="btn btn-primary"><ShoppingCart className="h-4 w-4" aria-hidden /> Shop now</Link>
-              <Link to="/kits" className="btn btn-outline">Student kits</Link>
+              <a href={whatsappLink("Hello Bargains Stationery, I would like to order")} target="_blank" rel="noreferrer" className="btn btn-outline"><MessageCircle className="h-4 w-4" aria-hidden /> Order on WhatsApp</a>
             </div>
           </div>
           <div className="relative">
             <div className="absolute -inset-3 rounded-lg border border-primary/50" />
-            <img src={hero} alt="Technical drawing tools, a calculator and safety gear" width={1200} height={756} fetchPriority="high" className="relative aspect-[4/3] w-full rounded-lg object-cover" />
+            <img src={hero} alt="Gaslo draftsman sets, Casio calculators and a set square from our shop" width={1200} height={900} fetchPriority="high" className="relative aspect-[4/3] w-full rounded-lg object-cover" />
           </div>
         </div>
       </section>
@@ -99,14 +98,6 @@ function Index() {
         </div>
       </section>
 
-      {/* Kits */}
-      <section id="kits" className="border-y bg-secondary py-14">
-        <div className="mx-auto max-w-7xl px-4">
-          <SectionTitle kicker="Only at Bargains" title="Ready-made student kits" sub="Everything on your list in one order. No running around town looking for each item." />
-          <div className="grid gap-6 md:grid-cols-3">{KITS.map((k) => <KitCard key={k.slug} kit={k} />)}</div>
-        </div>
-      </section>
-
       {/* Featured */}
       <section className="mx-auto max-w-7xl px-4 py-14">
         <SectionTitle kicker="Hand-picked" title="Featured products" />
@@ -122,9 +113,9 @@ function Index() {
           <p className="font-display text-xs font-bold uppercase tracking-[0.25em] text-primary-bright">Who we serve</p>
           <h2 className="mt-2 text-2xl font-extrabold sm:text-3xl">Built for engineers, priced for students</h2>
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <ServeCard i={GraduationCap} t="Students" d="First-year kits, exam calculators and attachment gear." link={<Link to="/kits" className={SERVE} />} />
-            <ServeCard i={PencilRuler} t="Draftsmen & architects" d="Boards, scale rulers, pencils and drawing instruments." link={<Link to="/shop" search={{ category: "drafting" }} className={SERVE} />} />
-            <ServeCard i={HardHat} t="Contractors & site teams" d="Helmets, vests, boots and workwear in bulk." link={<Link to="/shop" search={{ group: "safety" }} className={SERVE} />} />
+            <ServeCard i={GraduationCap} t="Engineering students" d="Casio calculators, draftsman sets and lab coats for your units." link={<Link to="/shop" search={{ category: "calculators" }} className={SERVE} />} />
+            <ServeCard i={PencilRuler} t="Draftsmen & architects" d="T-squares, set squares, protractors and drawing instruments." link={<Link to="/shop" search={{ category: "technical-drawing" }} className={SERVE} />} />
+            <ServeCard i={HardHat} t="Labs & workshops" d="White lab coats in S, M, L and XL for practical sessions." link={<Link to="/shop" search={{ category: "lab-wear" }} className={SERVE} />} />
             <ServeCard i={Building2} t="Schools & colleges" d="Bulk orders for workshops and drawing classes. Ask for a quote." link={<a href={whatsappLink("Hello, I'd like a bulk quote for our school/college.")} target="_blank" rel="noreferrer" className={SERVE} />} />
           </div>
         </div>
@@ -135,7 +126,7 @@ function Index() {
         <SectionTitle kicker="Simple ordering" title="How to order and pay" />
         <ol className="grid gap-6 md:grid-cols-3">
           {[
-            { i: ShoppingCart, t: "1. Add to cart", d: "Pick your items or a ready-made kit, then tap “Order via WhatsApp”." },
+            { i: ShoppingCart, t: "1. Add to cart", d: "Pick your items and options, then tap “Order via WhatsApp”." },
             { i: MessageCircle, t: "2. Confirm on WhatsApp", d: "We confirm stock and your delivery fee within minutes during working hours." },
             { i: Smartphone, t: "3. Pay by M-Pesa", d: `Paybill ${SITE.payment.paybill}, Account ${SITE.payment.account}. We dispatch as soon as payment lands.` },
           ].map(({ i: I, t, d }) => (
@@ -156,7 +147,7 @@ function Index() {
             {[
               { i: BadgePercent, t: "Affordable prices", d: "Student-friendly prices and weekly bargains." },
               { i: PencilRuler, t: "Engineering-focused", d: "Products chosen for technical drawing, engineering studies and site work." },
-              { i: ShieldCheck, t: "Safety gear you can trust", d: "Protective wear for real construction sites." },
+              { i: ShieldCheck, t: "Genuine brands", d: "Original Casio calculators and Gaslo drawing instruments." },
               { i: Truck, t: "Fast delivery", d: "Same-day in Nairobi, countrywide by courier." },
             ].map(({ i: I, t, d }) => (
               <div key={t} className="rounded-lg border bg-card p-6">
@@ -205,7 +196,7 @@ function BargainOfTheWeek() {
       <div className="blueprint-dark grid overflow-hidden rounded-xl bg-ink text-ink-foreground md:grid-cols-2">
         <img src={BARGAIN.image} alt={BARGAIN.name} loading="lazy" decoding="async" className="h-full max-h-96 w-full object-cover" />
         <div className="p-8 sm:p-12">
-          <p className="font-display text-xs font-bold uppercase tracking-[0.25em] text-primary-bright">Bargain of the week</p>
+          <p className="font-display text-xs font-bold uppercase tracking-[0.25em] text-primary-bright">{BARGAIN.originalPrice ? "Bargain of the week" : "Pick of the week"}</p>
           <h2 className="mt-3 text-3xl font-black">{BARGAIN.name}</h2>
           <p className="mt-2 text-ink-foreground/75">{BARGAIN.short}</p>
           <div className="mt-6 flex items-baseline gap-3">
@@ -213,7 +204,7 @@ function BargainOfTheWeek() {
             {BARGAIN.originalPrice && <span className="text-ink-foreground/60 line-through">{kes(BARGAIN.originalPrice)}</span>}
           </div>
           {BARGAIN.originalPrice && <p className="mt-2 text-sm font-semibold">You save {kes(BARGAIN.originalPrice - BARGAIN.price)} · {BARGAIN.stock > 0 ? `Only ${BARGAIN.stock} left` : "Sold out"}</p>}
-          <div className="mt-6" aria-live="off">
+          {BARGAIN.originalPrice && <div className="mt-6" aria-live="off">
             <p className="text-xs font-bold uppercase tracking-widest text-ink-foreground/70">Offer ends Sunday midnight</p>
             <div className="mt-2 flex gap-2">
               {(parts ?? [["days", "–"], ["hrs", "–"], ["min", "–"], ["sec", "–"]]).map(([l, v]) => (
@@ -223,8 +214,8 @@ function BargainOfTheWeek() {
                 </span>
               ))}
             </div>
-          </div>
-          <Link to="/product/$slug" params={{ slug: BARGAIN.slug }} className="btn btn-primary mt-8">Grab the deal</Link>
+          </div>}
+          <Link to="/product/$slug" params={{ slug: BARGAIN.slug }} className="btn btn-primary mt-8">{BARGAIN.originalPrice ? "Grab the deal" : "View product"}</Link>
         </div>
       </div>
     </section>

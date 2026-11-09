@@ -5,7 +5,7 @@ import { Logo } from "./Logo";
 import { CATEGORIES, SITE, kes, searchProducts, telLink, whatsappLink } from "@/lib/products";
 import { useStore } from "@/lib/store";
 
-const shopCats = CATEGORIES.filter((c) => c.group === "stationery");
+const shopCats = CATEGORIES;
 
 function SearchBox({ onDone, dark = false, inputId }: { onDone?: () => void; dark?: boolean; inputId?: string }) {
   const [q, setQ] = useState("");
@@ -31,7 +31,7 @@ function SearchBox({ onDone, dark = false, inputId }: { onDone?: () => void; dar
           if (e.key === "ArrowUp") { e.preventDefault(); setActive((a) => Math.max(a - 1, -1)); }
           if (e.key === "Escape") { setQ(""); setActive(-1); }
         }}
-        placeholder="Search calculators, helmets, drawing sets…"
+        placeholder="Search calculators, set squares, lab coats…"
         aria-label="Search products"
         role="combobox"
         aria-expanded={hits.length > 0}
@@ -99,8 +99,8 @@ export function Header() {
         <ul className="mx-auto flex max-w-7xl gap-7 px-4">
           <li><Link to="/" activeOptions={{ exact: true }} className={navCls}>Home</Link></li>
           <li className="group relative">
-            <Link to="/shop" search={{ group: "stationery" }} activeOptions={{ exact: true, includeSearch: true }} className={`${navCls} inline-flex items-center gap-1`}>
-              Engineering Stationery <ChevronDown className="h-3.5 w-3.5" aria-hidden />
+            <Link to="/shop" activeOptions={{ exact: true, includeSearch: true }} className={`${navCls} inline-flex items-center gap-1`}>
+              Shop <ChevronDown className="h-3.5 w-3.5" aria-hidden />
             </Link>
             <div className="invisible absolute left-0 top-full z-50 w-72 rounded-b-md border border-t-0 bg-popover p-2 text-foreground opacity-0 shadow-xl transition group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
               {shopCats.map((c) => (
@@ -108,8 +108,8 @@ export function Header() {
               ))}
             </div>
           </li>
-          <li><Link to="/shop" search={{ group: "safety" }} activeOptions={{ exact: true, includeSearch: true }} className={navCls}>Safety Attire</Link></li>
-          <li><Link to="/kits" className={navCls}>Student Kits</Link></li>
+          <li><Link to="/shop" search={{ category: "calculators" }} activeOptions={{ exact: true, includeSearch: true }} className={navCls}>Calculators</Link></li>
+          <li><Link to="/shop" search={{ category: "lab-wear" }} activeOptions={{ exact: true, includeSearch: true }} className={navCls}>Lab Coats</Link></li>
           <li><Link to="/deals" className={navCls}>Deals</Link></li>
           <li><Link to="/about" className={navCls}>About</Link></li>
           <li><Link to="/contact" className={navCls}>Contact</Link></li>
@@ -120,7 +120,7 @@ export function Header() {
         <nav id="mobile-menu" aria-label="Mobile" className="max-h-[75vh] overflow-y-auto border-t border-charcoal px-4 pb-6 lg:hidden">
           {([
             { to: "/", label: "Home" },
-            { to: "/kits", label: "Student Kits" },
+            { to: "/shop", label: "Shop all" },
             { to: "/deals", label: "Deals" },
             { to: "/about", label: "About Us" },
             { to: "/contact", label: "Contact Us" },

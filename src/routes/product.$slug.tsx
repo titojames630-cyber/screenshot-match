@@ -32,7 +32,7 @@ export const Route = createFileRoute("/product/$slug")({
             description: loaderData.product.description,
             sku: loaderData.product.sku,
             image: loaderData.product.image,
-            brand: { "@type": "Brand", name: "Bargains Stationery" },
+            brand: { "@type": "Brand", name: loaderData.product.brand ?? "Bargains Stationery" },
             offers: {
               "@type": "Offer",
               priceCurrency: "KES",
@@ -52,6 +52,8 @@ function ProductPage() {
   const { add, toggleWish, wishlist } = useStore();
   const [variant, setVariant] = useState(p.variants?.[0]);
   const [qty, setQty] = useState(1);
+  const gallery = p.images?.length ? p.images : [p.image];
+  const [shown, setShown] = useState(0);
   const d = discount(p);
   const related = PRODUCTS.filter((x) => x.category === p.category && x.id !== p.id).slice(0, 4);
   return (
@@ -59,8 +61,18 @@ function ProductPage() {
       <nav aria-label="Breadcrumb" className="text-xs text-muted-foreground"><Link to="/" className="hover:text-primary">Home</Link> / <Link to="/shop" search={{ category: p.category }} className="hover:text-primary">{categoryName(p.category)}</Link> / {p.name}</nav>
       <div className="mt-6 grid gap-10 md:grid-cols-2">
         <div className="blueprint relative overflow-hidden rounded-lg border bg-secondary">
-          <img src={p.image} alt={p.name} className="aspect-square w-full object-cover" />
+          <img src={gallery[shown] ?? p.image} alt={p.name} width={1000} height={1000} className="aspect-square w-full object-cover" />
           {d > 0 && <span className="absolute left-3 top-3 rounded bg-primary px-3 py-1 font-display text-sm font-bold text-primary-foreground">-{d}%</span>}
+          {gallery.length > 1 && (
+            <div className="absolute inset-x-0 bottom-3 flex justify-center gap-2">
+              {gallery.map((g, i) => (
+                <button key={g} onClick={() => setShown(i)} aria-label={`Show photo ${i + 1}`} aria-pressed={shown === i}
+                  className={`h-14 w-14 overflow-hidden rounded-md border-2 bg-background ${shown === i ? "border-primary" : "border-transparent opacity-80"}`}>
+                  <img src={g} alt="" className="h-full w-full object-cover" />
+                </button>
+              ))}
+            </div>
+          )}
         </div>
         <div>
           <p className="font-display text-xs font-bold uppercase tracking-widest text-primary">{categoryName(p.category)}</p>

@@ -12,14 +12,14 @@ export function Footer() {
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:grid-cols-2 lg:grid-cols-4">
         <div>
           <img src={logo} alt="Bargains Stationery — Engineering your success" width={160} height={160} loading="lazy" className="h-32 w-32" />
-          <p className="mt-4 text-sm text-ink-foreground/75">Engineering stationery, technical drawing equipment and construction safety attire at prices that make sense.</p>
+          <p className="mt-4 text-sm text-ink-foreground/75">Technical drawing instruments, genuine Casio calculators and lab coats for engineering students, at prices that make sense.</p>
         </div>
         <div>
           <h2 className={h}>Shop</h2>
           <Link to="/shop" className={a}>Shop all</Link>
-          <Link to="/shop" search={{ group: "stationery" }} className={a}>Engineering stationery</Link>
-          <Link to="/shop" search={{ group: "safety" }} className={a}>Safety attire</Link>
-          <Link to="/kits" className={a}>Student kits</Link>
+          <Link to="/shop" search={{ category: "technical-drawing" }} className={a}>Technical drawing</Link>
+          <Link to="/shop" search={{ category: "calculators" }} className={a}>Scientific calculators</Link>
+          <Link to="/shop" search={{ category: "lab-wear" }} className={a}>Lab coats</Link>
           <Link to="/deals" className={a}>Deals</Link>
           <Link to="/about" className={a}>About us</Link>
         </div>

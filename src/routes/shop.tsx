@@ -14,10 +14,10 @@ export const Route = createFileRoute("/shop")({
   validateSearch: schema,
   head: () => ({
     meta: [
-      { title: "Shop Engineering Stationery & Safety Attire | Bargains Stationery" },
-      { name: "description", content: "Browse drawing sets, calculators, drafting tools, measuring instruments and safety gear." },
+      { title: "Shop Drawing Instruments, Casio Calculators & Lab Coats | Bargains Stationery" },
+      { name: "description", content: "Gaslo draftsman sets, set squares, protractors, T-squares, Casio scientific calculators and lab coats." },
       { property: "og:title", content: "Shop | Bargains Stationery" },
-      { property: "og:description", content: "Engineering stationery and safety attire at bargain prices." },
+      { property: "og:description", content: "Engineering stationery at bargain prices." },
     ],
   }),
   component: Shop,
@@ -28,7 +28,7 @@ function Shop() {
   let items = filterProducts(s);
   if (s.sort === "low") items = [...items].sort((a, b) => a.price - b.price);
   if (s.sort === "high") items = [...items].sort((a, b) => b.price - a.price);
-  const title = s.q ? `Results for “${s.q}”` : s.category ? categoryName(s.category) : s.group === "safety" ? "Safety Attire" : s.group === "stationery" ? "Engineering Stationery" : "Shop All";
+  const title = s.q ? `Results for “${s.q}”` : s.category ? categoryName(s.category) : s.group === "safety" ? "Lab & Protective Wear" : s.group === "stationery" ? "Engineering Stationery" : "Shop All";
   return (
     <div className="mx-auto max-w-7xl px-4 py-10">
       <h1 className="text-3xl font-black">{title}</h1>

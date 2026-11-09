@@ -22,8 +22,9 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const [ready, setReady] = useState(false);
   useEffect(() => {
     try {
-      setCart(JSON.parse(localStorage.getItem("bs-cart") || "[]"));
-      setWish(JSON.parse(localStorage.getItem("bs-wish") || "[]"));
+      // drop items that are no longer in the catalogue
+      setCart((JSON.parse(localStorage.getItem("bs-cart") || "[]") as CartLine[]).filter((l) => bySlug(l.slug)));
+      setWish((JSON.parse(localStorage.getItem("bs-wish") || "[]") as string[]).filter((s) => bySlug(s)));
     } catch { /* ignore */ }
     setReady(true);
   }, []);
@@ -42,7 +43,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     remove: (i) => setCart((c) => c.filter((_, j) => j !== i)),
     clear: () => setCart([]),
     toggleWish: (slug) => setWish((w) => (w.includes(slug) ? w.filter((s) => s !== slug) : [...w, slug])),
-    count: cart.reduce((a, l) => a + l.qty, 0),
+    count: lines.reduce((a, l) => a + l.qty, 0),
     total: lines.reduce((a, l) => a + l.qty * l.product.price, 0),
   };
   return <StoreCtx.Provider value={value}>{children}</StoreCtx.Provider>;

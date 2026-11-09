@@ -1,12 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import hero from "@/assets/hero.webp";
+import hero from "@/assets/hero-products.webp";
 import logo from "@/assets/logo.webp";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
       { title: "About Us | Bargains Stationery" },
-      { name: "description", content: "Kenya's engineering-focused stationery and safety attire store." },
+      { name: "description", content: "Kenya's engineering-focused stationery store." },
       { property: "og:title", content: "About Bargains Stationery" },
       { property: "og:description", content: "Affordability, reliability and engineering excellence." },
     ],
@@ -17,7 +17,7 @@ export const Route = createFileRoute("/about")({
         <div>
           <img src={logo} alt="Bargains Stationery — Engineering your success" width={160} height={160} className="h-40 w-40 rounded-xl" />
           <h1 className="mt-6 text-4xl font-black">Built for engineers, priced for students.</h1>
-          <p className="mt-4 text-muted-foreground">Bargains Stationery supplies engineering students, draftsmen, architects and construction professionals with the tools they need — technical drawing equipment, calculators, measuring instruments and site safety attire.</p>
+          <p className="mt-4 text-muted-foreground">Bargains Stationery supplies engineering students, draftsmen and architects with the tools they need — technical drawing instruments, genuine Casio calculators, drafting tools and lab coats.</p>
           <div className="mt-8 grid grid-cols-3 gap-4 text-center">
             {["Affordability", "Reliability", "Engineering Excellence"].map((v) => (
               <div key={v} className="rounded-lg border-t-4 border-primary bg-secondary p-4 font-display text-xs font-bold uppercase">{v}</div>
@@ -25,7 +25,7 @@ export const Route = createFileRoute("/about")({
           </div>
           <Link to="/shop" className="btn btn-primary mt-8">Start shopping</Link>
         </div>
-        <img src={hero} alt="Engineering tools" loading="lazy" className="rounded-lg" />
+        <img src={hero} alt="Draftsman sets, Casio calculators and a set square" loading="lazy" className="rounded-lg" />
       </div>
     </div>
   ),
