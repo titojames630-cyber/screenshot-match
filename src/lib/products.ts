@@ -14,6 +14,9 @@ import dustCoat from "@/assets/products/dust-coat.webp";
 import helmet from "@/assets/products/safety-helmet.webp";
 import vest from "@/assets/products/reflector-vest.webp";
 import gloves from "@/assets/products/work-gloves.webp";
+import smpTables from "@/assets/products/smp-mathematical-tables.webp";
+import dealStationery from "@/assets/products/deal-stationery.webp";
+import dealSafety from "@/assets/products/deal-safety.webp";
 
 // Store settings. Values marked "recommended" are sensible defaults: confirm or edit them.
 export const SITE = {
@@ -48,7 +51,7 @@ export type Category = { slug: string; name: string; short: string; description:
 /** The four shop departments, shown as the main tabs. */
 export const CATEGORIES: Category[] = [
   { slug: "drawing-equipment", name: "Drawing Equipment", short: "Drawing", description: "Draftsman sets, set squares, scale rulers, T-squares, protractors and pencils.", image: draftsman },
-  { slug: "calculators", name: "Scientific Calculators", short: "Calculators", description: "Genuine Casio calculators for engineering maths.", image: casioEx },
+  { slug: "computation", name: "Computation", short: "Computation", description: "Casio scientific calculators and SMP mathematical tables.", image: casioEx },
   { slug: "engineering-attire", name: "Engineering Attire", short: "Attire", description: "Lab coats, overalls and dust coats for labs and workshops.", image: overall },
   { slug: "safety-gear", name: "Safety Gear", short: "Safety", description: "Safety boots, helmets, reflector vests and work gloves.", image: boots },
 ];
@@ -65,6 +68,8 @@ export type Product = {
   brand?: string;
   specs: Record<string, string>;
   featured?: boolean; sale?: boolean; isNew?: boolean;
+  /** For deals: what the bundle contains. */
+  includes?: string[];
 };
 
 // Products and prices from the Bargains Stationery WhatsApp catalogue.
@@ -97,14 +102,18 @@ export const PRODUCTS: Product[] = [
     description: "Staedtler Tradition drawing pencils in a full range of grades for technical drawing: soft 4B and 2B for shading, HB for general work, and hard 2H, 3H and 4H for fine construction lines. Price is per pencil.",
     price: 80, image: pencils, variants: ["4B", "2B", "HB", "2H", "3H", "4H"], stock: 20, sku: "BS-DE-STP", specs: { Brand: "Staedtler Tradition", Grades: "4B, 2B, HB, 2H, 3H, 4H", Price: "Per pencil" }, isNew: true }),
   // ── Calculators ──
-  p({ id: "4", slug: "casio-fx-991ex-classwiz", name: "Casio fx-991EX ClassWiz", brand: "Casio", category: "calculators",
+  p({ id: "4", slug: "casio-fx-991ex-classwiz", name: "Casio fx-991EX ClassWiz", brand: "Casio", category: "computation",
     short: "552 functions with a high-resolution display. Essential for all engineering maths units.",
     description: "Casio fx-991EX ClassWiz scientific calculator with 552 functions, a high-resolution display and spreadsheet mode. Essential for all engineering maths units and a good long-term investment.",
     price: 2500, image: casioEx, images: [casioEx, casioEx2], stock: 20, sku: "BS-CA-991EX", specs: { Brand: "Casio", Model: "fx-991EX ClassWiz", Functions: "552", Display: "High-resolution natural textbook display" }, featured: true }),
-  p({ id: "5", slug: "casio-fx-991es-plus", name: "Casio fx-991ES Plus (Black)", brand: "Casio", category: "calculators",
+  p({ id: "5", slug: "casio-fx-991es-plus", name: "Casio fx-991ES Plus (Black)", brand: "Casio", category: "computation",
     short: "417 functions. Essential for basic engineering calculations.",
     description: "Casio fx-991ES Plus scientific calculator in black, with 417 functions and a natural textbook display. Essential for basic engineering calculations.",
     price: 2200, image: casioEs, variants: ["Black"], stock: 20, sku: "BS-CA-991ES", specs: { Brand: "Casio", Model: "fx-991ES Plus (2nd edition)", Functions: "417", Colour: "Black" }, featured: true }),
+  p({ id: "16", slug: "smp-mathematical-tables", name: "SMP Mathematical Tables", category: "computation",
+    short: "Four-figure mathematical tables for maths, physics and engineering calculations.",
+    description: "SMP mathematical tables with logarithms, trigonometric functions, squares, square roots and reciprocals. Ask on WhatsApp for the current price.",
+    price: 0, priceOnRequest: true, image: smpTables, illustration: true, stock: 20, sku: "BS-CO-SMP", specs: { Contents: "Logs, trig functions, squares, roots, reciprocals", Use: "Maths, physics and engineering units" } }),
   // ── Engineering attire ──
   p({ id: "7", slug: "polyester-white-labcoat", name: "Polyester White Lab Coat", category: "engineering-attire",
     short: "All sizes available (S, M, L, XL). For lab sessions and as a substitute for overalls.",
@@ -116,8 +125,8 @@ export const PRODUCTS: Product[] = [
     price: 1000, image: overall, variants: ["S", "M", "L", "XL"], stock: 20, sku: "BS-EA-OV", specs: { Material: "Polyester", Colour: "Navy blue", Sizes: "S, M, L, XL", Features: "Aeration openings" }, featured: true, isNew: true }),
   p({ id: "11", slug: "dust-coat", name: "Dust Coat", category: "engineering-attire",
     short: "Knee-length dust coat for workshops, stores and practical sessions.",
-    description: "Knee-length dust coat that keeps your clothes clean during workshop, stores and practical sessions. Ask on WhatsApp for available colours and sizes.",
-    price: 700, image: dustCoat, illustration: true, variants: ["S", "M", "L", "XL"], stock: 20, sku: "BS-EA-DC", specs: { Length: "Knee-length", Sizes: "S, M, L, XL", Colours: "Ask on WhatsApp" } }),
+    description: "Royal blue knee-length dust coat that keeps your clothes clean during workshop, stores and practical sessions. Available in sizes S, M, L and XL.",
+    price: 600, image: dustCoat, variants: ["S", "M", "L", "XL"], stock: 20, sku: "BS-EA-DC", specs: { Length: "Knee-length", Colour: "Royal blue", Sizes: "S, M, L, XL" } }),
   // ── Safety gear ──
   p({ id: "12", slug: "lushunda-safety-boots", name: "Lushunda Safety Boots", brand: "Lushunda", category: "safety-gear",
     short: "Essential for workshops, fieldwork and your future attachment.",
@@ -129,22 +138,60 @@ export const PRODUCTS: Product[] = [
     price: 250, image: vest, illustration: true, stock: 20, sku: "BS-SG-RV", specs: { Type: "High-visibility vest", Strips: "Reflective" }, featured: true }),
   p({ id: "14", slug: "safety-helmet", name: "Safety Helmet", category: "safety-gear",
     short: "Hard hat for construction sites, site visits and attachment.",
-    description: "Protective hard hat for construction sites, site visits and industrial attachment. Ask on WhatsApp for colours and the current price.",
-    price: 0, priceOnRequest: true, image: helmet, illustration: true, stock: 20, sku: "BS-SG-HM", specs: { Type: "Hard hat", Colours: "Ask on WhatsApp" } }),
+    description: "Protective hard hat for construction sites, site visits and industrial attachment. Ask on WhatsApp for available colours.",
+    price: 500, image: helmet, illustration: true, stock: 20, sku: "BS-SG-HM", specs: { Type: "Hard hat", Colours: "Ask on WhatsApp" } }),
   p({ id: "15", slug: "work-gloves", name: "Working Gloves", category: "safety-gear",
-    short: "Protective gloves for workshops and practical sessions.",
-    description: "Protective working gloves for workshops, fieldwork and practical sessions. Ask on WhatsApp for the current price.",
-    price: 0, priceOnRequest: true, image: gloves, illustration: true, stock: 20, sku: "BS-SG-GL", specs: { Use: "Workshops and fieldwork" } }),
+    short: "Knitted gloves with a rubber-coated palm for a firm grip in workshops and fieldwork.",
+    description: "Knitted cotton working gloves with a grey rubber-coated palm and fingers for a firm, protective grip in workshops, fieldwork and practical sessions.",
+    price: 400, image: gloves, stock: 20, sku: "BS-SG-GL", specs: { Type: "Knitted, rubber-coated palm", Use: "Workshops and fieldwork" } }),
+];
+
+// ── Deals ──
+export type Deal = {
+  slug: string; name: string; tagline: string; image: string; kind: "stationery" | "safety";
+  /** Paid items in the bundle. */
+  items: string[];
+  /** Items included free. */
+  free: string[];
+  /** Fixed amount off the paid items. */
+  discount: number;
+  /** Customer picks one of these (e.g. free pencil grade). */
+  choiceLabel?: string; choices?: string[];
+  note?: string;
+};
+export const DEALS: Deal[] = [
+  { slug: "deal-stationery", kind: "stationery", name: "Stationery Deal", tagline: "Everything for technical drawing, plus a FREE protractor and a FREE pencil of your choice.",
+    image: dealStationery, items: ["gaslo-draftsman-set-609", "gaslo-set-square-35cm", "triangular-scale-ruler-30cm", "t-square-90cm"], free: ["protractor-360", "staedtler-tradition-pencils"], discount: 0,
+    choiceLabel: "Free pencil grade", choices: ["4B", "2B", "HB", "2H", "3H", "4H"] },
+  { slug: "deal-safety", kind: "safety", name: "Safety Deal", tagline: "Boots, overall and gloves together, KES 200 off.",
+    image: dealSafety, items: ["lushunda-safety-boots", "polyester-navy-overall", "work-gloves"], free: [], discount: 200,
+    note: "Tell us your boot and overall sizes on WhatsApp." },
 ];
 
 export const kes = (n: number) => "KES " + n.toLocaleString("en-KE");
 export const priceLabel = (pr: Product) => (pr.priceOnRequest ? "Price on request" : kes(pr.price));
 export const discount = (pr: Product) => pr.originalPrice ? Math.round((1 - pr.price / pr.originalPrice) * 100) : 0;
-export const bySlug = (s: string) => PRODUCTS.find((x) => x.slug === s);
-export const categoryName = (s: string) => CATEGORIES.find((c) => c.slug === s)?.name ?? s;
+const findProduct = (s: string) => PRODUCTS.find((x) => x.slug === s);
+export const dealWorth = (d: Deal) => [...d.items, ...d.free].reduce((a, s) => a + (findProduct(s)?.price ?? 0), 0);
+export const dealPrice = (d: Deal) => d.items.reduce((a, s) => a + (findProduct(s)?.price ?? 0), 0) - d.discount;
+/** A deal shaped like a product, so it works in the cart and on product pages. */
+export const dealAsProduct = (d: Deal): Product => ({
+  id: d.slug, slug: d.slug, name: d.name, category: "deals", short: d.tagline,
+  description: `${d.tagline} Includes: ${[...d.items, ...d.free].map((s) => findProduct(s)?.name).join(", ")}.${d.note ? ` ${d.note}` : ""}`,
+  price: dealPrice(d), originalPrice: dealWorth(d), image: d.image, variants: d.choices, stock: 20, sku: d.slug.toUpperCase(), sale: true,
+  includes: [...d.items.map((s) => findProduct(s)?.name ?? s), ...d.free.map((s) => `${findProduct(s)?.name ?? s} (FREE)`)],
+  specs: Object.fromEntries([
+    ...d.items.map((s) => [findProduct(s)?.name ?? s, kes(findProduct(s)?.price ?? 0)]),
+    ...d.free.map((s) => [findProduct(s)?.name ?? s, "FREE"]),
+    ...(d.discount ? [["Bundle discount", `− ${kes(d.discount)}`]] : []),
+  ]),
+});
+export const DEAL_PRODUCTS = DEALS.map(dealAsProduct);
+export const bySlug = (s: string) => findProduct(s) ?? DEAL_PRODUCTS.find((x) => x.slug === s);
+export const categoryName = (s: string) => (s === "deals" ? "Deals" : CATEGORIES.find((c) => c.slug === s)?.name ?? s);
 const SYNONYMS: Record<string, string[]> = {
   geometry: ["draftsman", "protractor", "set square"], "maths set": ["draftsman"], compass: ["draftsman"],
-  calculator: ["casio"], calc: ["casio"], classwiz: ["classwiz"], "991": ["casio"], "draftsman": ["draftsman"], "drawing set": ["draftsman"],
+  calculator: ["casio"], calc: ["casio"], smp: ["smp"], tables: ["smp"], "maths tables": ["smp"], log: ["smp"], classwiz: ["classwiz"], "991": ["casio"], "draftsman": ["draftsman"], "drawing set": ["draftsman"],
   "t square": ["t square"], tsquare: ["t square"], triangle: ["set square"], labcoat: ["lab coat"], "lab coat": ["lab coat"],
   dustcoat: ["dust coat"], "dust coat": ["dust coat"], overalls: ["overall"], coat: ["coat"], angle: ["protractor", "set square"],
   pencil: ["pencils"], staedtler: ["staedtler"], stadler: ["staedtler"], scale: ["scale ruler"], ruler: ["scale ruler", "t square"],
@@ -184,5 +231,5 @@ export const filterProducts = (opts: { category?: string | undefined; q?: string
     if (opts.q && !matchesQuery(x, opts.q)) return false;
     return true;
   });
-export const BARGAIN: Product = PRODUCTS.find((x) => x.slug === "casio-fx-991ex-classwiz")!;
+export const BARGAIN: Product = DEAL_PRODUCTS[0]!;
 export const whatsappLink = (text: string) => `https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(text)}`;

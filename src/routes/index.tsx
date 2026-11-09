@@ -3,17 +3,18 @@ import {
   BadgeCheck, BadgePercent, Building2, GraduationCap, HardHat, MessageCircle, PencilRuler, ShieldCheck, ShoppingCart,
   Smartphone, Truck, Wallet, type LucideIcon,
 } from "lucide-react";
-import { cloneElement, useEffect, useState, type ReactElement, type ReactNode } from "react";
+import { cloneElement, type ReactElement, type ReactNode } from "react";
 import hero from "@/assets/hero-products.webp";
-import { BARGAIN, CATEGORIES, PRODUCTS, SITE, kes, whatsappLink } from "@/lib/products";
+import { CATEGORIES, DEALS, PRODUCTS, SITE, whatsappLink } from "@/lib/products";
 import { ProductCard } from "@/components/site/ProductCard";
 import { FAQS } from "@/lib/content";
 import { Reveal } from "@/components/site/Reveal";
+import { DealCard } from "@/components/site/DealCard";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Bargains Stationery | Drawing Equipment, Calculators & Safety Gear in Kenya" },
+      { title: "Bargains Stationery | Drawing Equipment, Calculators, Attire & Safety Gear in Kenya" },
       { name: "description", content: "Drawing equipment, Casio scientific calculators, lab coats, overalls, safety boots and reflector vests at student prices. Pay by M-Pesa, same-day Nairobi delivery." },
       { property: "og:title", content: "Bargains Stationery: Engineering your success" },
       { property: "og:description", content: "Engineering stationery at prices that make sense. Order on WhatsApp, pay by M-Pesa." },
@@ -107,7 +108,13 @@ function Index() {
         </div>
       </div>
 
-      <BargainOfTheWeek />
+      {/* Deals */}
+      <section className="mx-auto max-w-7xl px-4 pt-14">
+        <SectionTitle kicker="Bundle & save" title="This week's deals" sub="Buy the set together: free protractor and pencil with the Stationery Deal, KES 200 off the Safety Deal." />
+        <div className="grid gap-6 lg:grid-cols-2">
+          {DEALS.map((d, i) => <Reveal key={d.slug} delay={i * 120} className="h-full"><DealCard d={d} /></Reveal>)}
+        </div>
+      </section>
 
       {/* Categories */}
       <section className="mx-auto max-w-7xl px-4 py-14">
@@ -145,7 +152,7 @@ function Index() {
           <p className="font-display text-xs font-bold uppercase tracking-[0.25em] text-primary-bright">Who we serve</p>
           <h2 className="mt-2 text-2xl font-extrabold sm:text-3xl">Built for engineers, priced for students</h2>
           <Reveal className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <ServeCard i={GraduationCap} t="Engineering students" d="Casio calculators, draftsman sets and scale rulers for every unit." link={<Link to="/shop" search={{ category: "calculators" }} className={SERVE} />} />
+            <ServeCard i={GraduationCap} t="Engineering students" d="Casio calculators, SMP tables, draftsman sets and scale rulers." link={<Link to="/shop" search={{ category: "computation" }} className={SERVE} />} />
             <ServeCard i={PencilRuler} t="Draftsmen & architects" d="T-squares, set squares, scale rulers and Staedtler pencils." link={<Link to="/shop" search={{ category: "drawing-equipment" }} className={SERVE} />} />
             <ServeCard i={HardHat} t="Workshops & attachment" d="Overalls, lab coats, safety boots and reflector vests." link={<Link to="/shop" search={{ category: "safety-gear" }} className={SERVE} />} />
             <ServeCard i={Building2} t="Schools & colleges" d="Bulk orders for workshops and drawing classes. Ask for a quote." link={<a href={whatsappLink("Hello, I'd like a bulk quote for our school/college.")} target="_blank" rel="noreferrer" className={SERVE} />} />
@@ -202,58 +209,6 @@ const SERVE = "block h-full rounded-lg border border-charcoal p-6 transition dur
 function ServeCard({ i: I, t, d, link }: { i: LucideIcon; t: string; d: string; link: ReactElement<{ children?: ReactNode }> }) {
   return cloneElement(link, {}, <><I className="h-8 w-8 text-primary-bright" aria-hidden /><h3 className="mt-4 font-bold">{t}</h3><p className="mt-1 text-sm text-ink-foreground/75">{d}</p></>);
 }
-
-/** Next Sunday 23:59:59 in Nairobi (UTC+3). */
-function dealEnd(now: Date) {
-  const eat = new Date(now.getTime() + 3 * 3600_000);
-  const daysToSunday = (7 - eat.getUTCDay()) % 7;
-  const end = Date.UTC(eat.getUTCFullYear(), eat.getUTCMonth(), eat.getUTCDate() + daysToSunday, 23, 59, 59) - 3 * 3600_000;
-  return end;
-}
-
-function BargainOfTheWeek() {
-  const [left, setLeft] = useState<number | null>(null);
-  useEffect(() => {
-    const tick = () => setLeft(Math.max(0, dealEnd(new Date()) - Date.now()));
-    tick();
-    const t = setInterval(tick, 1000);
-    return () => clearInterval(t);
-  }, []);
-  const parts = left === null ? null : [
-    ["days", Math.floor(left / 86_400_000)], ["hrs", Math.floor(left / 3_600_000) % 24],
-    ["min", Math.floor(left / 60_000) % 60], ["sec", Math.floor(left / 1000) % 60],
-  ] as const;
-  return (
-    <section className="mx-auto max-w-7xl px-4 pt-14">
-      <Reveal className="blueprint-dark grid overflow-hidden rounded-xl bg-ink text-ink-foreground shadow-xl md:grid-cols-2">
-        <div className="overflow-hidden"><img src={BARGAIN.image} alt={BARGAIN.name} loading="lazy" decoding="async" className="h-full max-h-96 w-full object-cover transition duration-700 hover:scale-105" /></div>
-        <div className="p-8 sm:p-12">
-          <p className="font-display text-xs font-bold uppercase tracking-[0.25em] text-primary-bright">{BARGAIN.originalPrice ? "Bargain of the week" : "Pick of the week"}</p>
-          <h2 className="mt-3 text-3xl font-black">{BARGAIN.name}</h2>
-          <p className="mt-2 text-ink-foreground/75">{BARGAIN.short}</p>
-          <div className="mt-6 flex items-baseline gap-3">
-            <span className="font-display text-4xl font-black text-primary-bright">{kes(BARGAIN.price)}</span>
-            {BARGAIN.originalPrice && <span className="text-ink-foreground/60 line-through">{kes(BARGAIN.originalPrice)}</span>}
-          </div>
-          {BARGAIN.originalPrice && <p className="mt-2 text-sm font-semibold">You save {kes(BARGAIN.originalPrice - BARGAIN.price)} · {BARGAIN.stock > 0 ? `Only ${BARGAIN.stock} left` : "Sold out"}</p>}
-          {BARGAIN.originalPrice && <div className="mt-6" aria-live="off">
-            <p className="text-xs font-bold uppercase tracking-widest text-ink-foreground/70">Offer ends Sunday midnight</p>
-            <div className="mt-2 flex gap-2">
-              {(parts ?? [["days", "–"], ["hrs", "–"], ["min", "–"], ["sec", "–"]]).map(([l, v]) => (
-                <span key={l} className="min-w-14 rounded-md border border-charcoal px-2 py-1.5 text-center">
-                  <span className="block font-display text-xl font-black tabular-nums">{typeof v === "number" ? String(v).padStart(2, "0") : v}</span>
-                  <span className="block text-[0.65rem] uppercase text-ink-foreground/70">{l}</span>
-                </span>
-              ))}
-            </div>
-          </div>}
-          <Link to="/product/$slug" params={{ slug: BARGAIN.slug }} className="btn btn-primary mt-8">{BARGAIN.originalPrice ? "Grab the deal" : "View product"}</Link>
-        </div>
-      </Reveal>
-    </section>
-  );
-}
-
 
 function Faq() {
   return (

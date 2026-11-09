@@ -20,7 +20,8 @@ export const Route = createFileRoute("/cart")({
 function Cart() {
   const { lines, total, count, setQty, setVariant, remove, clear } = useStore();
   const msg = "Hello Bargains Stationery, I'd like to order:\n" +
-    lines.map((l) => `- ${l.product.name}${l.variant ? ` (${l.variant})` : ""} x${l.qty} @ ${kes(l.product.price)} = ${kes(l.qty * l.product.price)}`).join("\n") +
+    lines.map((l) => `- ${l.product.name}${l.variant ? ` (${l.product.includes ? "free pencil " : ""}${l.variant})` : ""} x${l.qty} @ ${kes(l.product.price)} = ${kes(l.qty * l.product.price)}` +
+      (l.product.includes ? `\n    includes: ${l.product.includes.join(", ")}` : "")).join("\n") +
     `\nTotal (${count} item${count === 1 ? "" : "s"}): ${kes(total)}` +
     "\n\nDelivery location: " +
     `\nI will pay via M-Pesa Paybill ${SITE.payment.paybill}, Account ${SITE.payment.account}.`;
@@ -51,10 +52,11 @@ function Cart() {
                   <img src={l.product.image} alt="" className="h-16 w-16 rounded object-cover" />
                   <div className="min-w-0">
                     <Link to="/product/$slug" params={{ slug: l.slug }} className="font-display font-bold leading-tight hover:text-primary">{l.product.name}</Link>
-                    <p className="mt-0.5 text-xs text-muted-foreground">{kes(l.product.price)} each</p>
+                    <p className="mt-0.5 text-xs text-muted-foreground">{kes(l.product.price)} each{l.product.originalPrice ? <span className="ml-1 line-through">{kes(l.product.originalPrice)}</span> : null}</p>
+                    {l.product.includes && <p className="mt-0.5 text-xs text-muted-foreground">{l.product.includes.join(" · ")}</p>}
                     {l.product.variants && l.product.variants.length > 1 && (
                       <label className="mt-1 inline-flex items-center gap-2 text-xs">
-                        <span className="text-muted-foreground">Option</span>
+                        <span className="text-muted-foreground">{l.product.includes ? "Free pencil" : "Option"}</span>
                         <select value={l.variant} onChange={(e) => setVariant(i, e.target.value)} className="rounded border bg-background px-2 py-1 text-xs">
                           {l.product.variants.map((v) => <option key={v}>{v}</option>)}
                         </select>

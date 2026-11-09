@@ -102,7 +102,7 @@ export function Header() {
             return (
               <li key={c.slug} className="group relative">
                 <Link to="/shop" search={{ category: c.slug }} activeOptions={{ exact: true, includeSearch: true }} className={`${navCls} inline-flex items-center gap-1`}>
-                  {c.slug === "calculators" ? "Calculators" : c.name} <ChevronDown className="h-3.5 w-3.5 transition group-hover:rotate-180" aria-hidden />
+                  {c.name} <ChevronDown className="h-3.5 w-3.5 transition group-hover:rotate-180" aria-hidden />
                 </Link>
                 <div className="invisible absolute left-0 top-full z-50 w-80 translate-y-1 rounded-b-lg border border-t-0 bg-popover p-2 text-foreground opacity-0 shadow-2xl transition duration-200 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
                   {items.map((x) => (

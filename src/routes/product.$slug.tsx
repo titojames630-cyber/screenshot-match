@@ -58,7 +58,7 @@ function ProductPage() {
   const related = PRODUCTS.filter((x) => x.category === p.category && x.id !== p.id).slice(0, 4);
   return (
     <div className="mx-auto max-w-7xl px-4 py-10">
-      <nav aria-label="Breadcrumb" className="text-xs text-muted-foreground"><Link to="/" className="hover:text-primary">Home</Link> / <Link to="/shop" search={{ category: p.category }} className="hover:text-primary">{categoryName(p.category)}</Link> / {p.name}</nav>
+      <nav aria-label="Breadcrumb" className="text-xs text-muted-foreground"><Link to="/" className="hover:text-primary">Home</Link> / {p.category === "deals" ? <Link to="/deals" className="hover:text-primary">Deals</Link> : <Link to="/shop" search={{ category: p.category }} className="hover:text-primary">{categoryName(p.category)}</Link>} / {p.name}</nav>
       <div className="mt-6 grid gap-10 md:grid-cols-2">
         <div className="blueprint relative overflow-hidden rounded-lg border bg-secondary">
           <img src={gallery[shown] ?? p.image} alt={p.name} width={1000} height={1000} className="aspect-square w-full object-cover" />
@@ -85,7 +85,7 @@ function ProductPage() {
           <p className="mt-5 text-muted-foreground">{p.description}</p>
           {p.variants && (
             <div className="mt-6">
-              <p className="mb-2 font-display text-xs font-bold uppercase">Choose option</p>
+              <p className="mb-2 font-display text-xs font-bold uppercase">{p.includes ? "Choose your free pencil" : "Choose option"}</p>
               <div className="flex flex-wrap gap-2">
                 {p.variants.map((v) => (
                   <button key={v} onClick={() => setVariant(v)} aria-pressed={variant === v} className={`rounded border-2 px-4 py-2 text-sm font-semibold ${variant === v ? "border-primary text-primary" : ""}`}>{v}</button>

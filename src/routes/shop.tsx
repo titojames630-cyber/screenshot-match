@@ -14,7 +14,7 @@ export const Route = createFileRoute("/shop")({
   validateSearch: schema,
   head: () => ({
     meta: [
-      { title: "Shop Drawing Equipment, Calculators, Attire & Safety Gear | Bargains Stationery" },
+      { title: "Shop Drawing Equipment, Computation, Attire & Safety Gear | Bargains Stationery" },
       { name: "description", content: "Drawing equipment, Casio scientific calculators, lab coats, overalls, safety boots and reflector vests for engineering students in Kenya." },
       { property: "og:title", content: "Shop | Bargains Stationery" },
       { property: "og:description", content: "Engineering stationery at bargain prices." },
@@ -24,7 +24,8 @@ export const Route = createFileRoute("/shop")({
 });
 
 function Shop() {
-  const s = Route.useSearch();
+  const raw = Route.useSearch();
+  const s = raw.category === "calculators" ? { ...raw, category: "computation" } : raw; // old links
   let items = filterProducts(s);
   const pr = (x: { price: number; priceOnRequest?: boolean }) => (x.priceOnRequest ? Number.POSITIVE_INFINITY : x.price);
   if (s.sort === "low") items = [...items].sort((a, b) => pr(a) - pr(b));
